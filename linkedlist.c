@@ -96,6 +96,15 @@ List_ptr reverse(List_ptr list)
 
 List_ptr map(List_ptr list, Mapper mapper)
 {
+  List_ptr new_list = create_list();
+  Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    Element element = (*mapper)(p_walk->element);
+    add_to_list(new_list, element);
+    p_walk = p_walk->next;
+  }
+  return new_list;
 }
 
 List_ptr filter(List_ptr list, Predicate predicate)
@@ -142,7 +151,7 @@ Element remove_from_end(List_ptr list)
     index++;
   }
   p_walk->next = NULL;
-  Element element = list->last->element;
+  Element element = p_walk->element;
   free(list->last);
   list->last = p_walk;
   if (list->length == 1)
