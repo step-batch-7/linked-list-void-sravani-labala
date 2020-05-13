@@ -1,4 +1,4 @@
-#include "list_void.h"
+#include "linkedlist.h"
 
 List_ptr create_list(void)
 {
@@ -115,7 +115,7 @@ Element remove_from_start(List_ptr list)
   Node_ptr p_walk = list->first;
   if (p_walk == NULL)
   {
-    return Failure;
+    return NULL;
   }
   list->first = p_walk->next;
   Element element = p_walk->element;
@@ -133,7 +133,7 @@ Element remove_from_end(List_ptr list)
   Node_ptr p_walk = list->first;
   if (p_walk == NULL)
   {
-    return Failure;
+    return NULL;
   }
   int index = 1;
   while (index < list->length - 1)
@@ -157,7 +157,7 @@ Element remove_at(List_ptr list, int position)
 {
   if ((list->length - 1) < position || position < 0)
   {
-    return Failure;
+    return NULL;
   };
   if (position == 0)
   {
