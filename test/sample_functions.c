@@ -45,3 +45,9 @@ Element sum(Element value1, Element value2)
   *result = *(int *)value1 + *(int *)value2;
   return result;
 }
+
+Status is_equal(Element value1, Element value2)
+{
+  Status status = *(int *)value1 == *(int *)value2;
+  return status;
+}

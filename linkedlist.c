@@ -266,9 +266,13 @@ Status add_unique(List_ptr list, Element element, Matcher matcher)
 {
   Status is_unique = Failure;
   Node_ptr p_walk = list->first;
-  while ((p_walk != NULL) || (!is_unique))
+  while (p_walk != NULL)
   {
     is_unique = (*matcher)(element, p_walk->element);
+    if (is_unique)
+    {
+      break;
+    }
     p_walk = p_walk->next;
   }
   Status status = Failure;
@@ -276,7 +280,7 @@ Status add_unique(List_ptr list, Element element, Matcher matcher)
   {
     status = add_to_list(list, element);
   }
-  return Success;
+  return status;
 }
 
 Status clear_list(List_ptr list)
