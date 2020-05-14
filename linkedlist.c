@@ -191,6 +191,7 @@ Element remove_from_end(List_ptr list)
   if (list->length == 1)
   {
     list->first = NULL;
+    list->last = NULL;
   }
   list->length--;
   return element;
