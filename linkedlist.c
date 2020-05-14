@@ -225,7 +225,7 @@ Element remove_at(List_ptr list, int position)
   return element;
 }
 
-Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
+int get_index(List_ptr list, Element element, Matcher matcher)
 {
   Status is_element_exist = Failure;
   Node_ptr p_walk = list->first;
@@ -236,12 +236,18 @@ Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
     p_walk = p_walk->next;
     if (is_element_exist)
     {
-      break;
+      return index;
     }
     index++;
   }
+  return -1;
+}
+
+Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
+{
+  int index = get_index(list, element, matcher);
   Element removed_element = NULL;
-  if (is_element_exist)
+  if (index != -1)
   {
     removed_element = remove_at(list, index);
   }
@@ -268,19 +274,9 @@ List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher)
 
 Status add_unique(List_ptr list, Element element, Matcher matcher)
 {
-  Status is_unique = Failure;
-  Node_ptr p_walk = list->first;
-  while (p_walk != NULL)
-  {
-    is_unique = (*matcher)(element, p_walk->element);
-    if (is_unique)
-    {
-      break;
-    }
-    p_walk = p_walk->next;
-  }
+  int index = get_index(list, element, matcher);
   Status status = Failure;
-  if (!is_unique)
+  if (index == -1)
   {
     status = add_to_list(list, element);
   }
