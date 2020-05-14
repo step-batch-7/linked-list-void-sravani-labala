@@ -9,5 +9,6 @@
 // Status matcher(Element, Element);
 
 void increment_processor(Element element);
+Status is_even(Element element);
 
 #endif

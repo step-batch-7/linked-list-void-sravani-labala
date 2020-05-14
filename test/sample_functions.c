@@ -25,3 +25,9 @@ void increment_processor(Element element)
   int previous_value = *(int *)element;
   *(int *)element = previous_value + 1;
 }
+
+Status is_even(Element element)
+{
+  Status status = (*(int *)element % 2) ? Failure : Success;
+  return status;
+}
