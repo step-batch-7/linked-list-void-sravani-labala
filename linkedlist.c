@@ -230,10 +230,14 @@ Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
   Status is_element_exist = Failure;
   Node_ptr p_walk = list->first;
   int index = 0;
-  while ((p_walk != NULL) || (!is_element_exist))
+  while ((p_walk != NULL))
   {
     is_element_exist = (*matcher)(element, p_walk->element);
     p_walk = p_walk->next;
+    if (is_element_exist)
+    {
+      break;
+    }
     index++;
   }
   Element removed_element = NULL;

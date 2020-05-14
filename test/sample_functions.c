@@ -1,25 +1,5 @@
 #include "sample_functions.h"
 
-// Element mapper(Element element)
-// {
-// }
-
-// Element reducer(Element element, Element element2)
-// {
-// }
-
-// Status predicate(Element element)
-// {
-// }
-
-// void processor(Element element)
-// {
-// }
-
-// Status matcher(Element element, Element element2)
-// {
-// }
-
 Element mapper_inc(Element element)
 {
   int *mapped_ptr = malloc(sizeof(int));
