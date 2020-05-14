@@ -257,17 +257,12 @@ Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
 List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher)
 {
   List_ptr removed_list = create_list();
-  Node_ptr p_walk = list->first;
-  Status is_element_exist = Failure;
-  int index = 0;
-  while (p_walk != NULL)
+  int index = get_index(list, element, matcher);
+  while (index != -1)
   {
-    is_element_exist = (*matcher)(element, p_walk->element);
-    if (is_element_exist)
-    {
-      add_to_list(removed_list, remove_at(list, index));
-    }
-    p_walk = p_walk->next;
+    Element removed_element = remove_at(list, index);
+    index = get_index(list, element, matcher);
+    add_to_list(removed_list, removed_element);
   }
   return removed_list;
 }
