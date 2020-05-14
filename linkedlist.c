@@ -92,6 +92,14 @@ Status insert_at(List_ptr list, Element element, int position)
 
 List_ptr reverse(List_ptr list)
 {
+  List_ptr new_list = create_list();
+  Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    add_to_start(new_list, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return new_list;
 }
 
 List_ptr map(List_ptr list, Mapper mapper)
@@ -109,10 +117,30 @@ List_ptr map(List_ptr list, Mapper mapper)
 
 List_ptr filter(List_ptr list, Predicate predicate)
 {
+  List_ptr new_list = create_list();
+  Node_ptr p_walk = list->first;
+  while (p_walk != NULL)
+  {
+    Status status = (*predicate)(p_walk->element);
+    if (status)
+    {
+      add_to_list(new_list, p_walk->element);
+    }
+    p_walk = p_walk->next;
+  }
+  return new_list;
 }
 
 Element reduce(List_ptr list, Element element, Reducer reducer)
 {
+  Node_ptr p_walk = list->first;
+  Element reduced_value = NULL;
+  while (p_walk != NULL)
+  {
+    reduced_value = (*reducer)(element, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  return reduced_value;
 }
 
 void forEach(List_ptr list, ElementProcessor processor)
@@ -157,7 +185,7 @@ Element remove_from_end(List_ptr list)
     index++;
   }
   p_walk->next = NULL;
-  Element element = p_walk->element;
+  Element element = list->last->element;
   free(list->last);
   list->last = p_walk;
   if (list->length == 1)
@@ -199,14 +227,56 @@ Element remove_at(List_ptr list, int position)
 
 Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
 {
+  Status is_element_exist = Failure;
+  Node_ptr p_walk = list->first;
+  int index = 0;
+  while ((p_walk != NULL) || (!is_element_exist))
+  {
+    is_element_exist = (*matcher)(element, p_walk->element);
+    p_walk = p_walk->next;
+    index++;
+  }
+  Element removed_element = NULL;
+  if (is_element_exist)
+  {
+    removed_element = remove_at(list, index);
+  }
+  return removed_element;
 }
 
 List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher)
 {
+  List_ptr removed_list = create_list();
+  Node_ptr p_walk = list->first;
+  Status is_element_exist = Failure;
+  int index = 0;
+  while (p_walk != NULL)
+  {
+    is_element_exist = (*matcher)(element, p_walk->element);
+    if (is_element_exist)
+    {
+      add_to_list(removed_list, remove_at(list, index));
+    }
+    p_walk = p_walk->next;
+  }
+  return removed_list;
 }
 
 Status add_unique(List_ptr list, Element element, Matcher matcher)
 {
+  Status is_unique = Failure;
+  Node_ptr p_walk = list->first;
+  while ((p_walk != NULL) || (!is_unique))
+  {
+    is_unique = (*matcher)(element, p_walk->element);
+    p_walk = p_walk->next;
+  }
+  Status status = Failure;
+  if (!is_unique)
+  {
+    status = add_to_list(list, element);
+  }
+  return Success;
 }
 
 Status clear_list(List_ptr list)

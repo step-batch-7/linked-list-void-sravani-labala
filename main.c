@@ -1,6 +1,6 @@
 #include "linkedlist.h"
 
-int main()
+int main(void)
 {
   return 0;
 }
