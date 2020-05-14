@@ -20,6 +20,13 @@
 // {
 // }
 
+Element mapper_inc(Element element)
+{
+  int *mapped_ptr = malloc(sizeof(int));
+  *mapped_ptr = *(int *)element + 1;
+  return mapped_ptr;
+}
+
 void increment_processor(Element element)
 {
   int previous_value = *(int *)element;
