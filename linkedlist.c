@@ -134,10 +134,10 @@ List_ptr filter(List_ptr list, Predicate predicate)
 Element reduce(List_ptr list, Element element, Reducer reducer)
 {
   Node_ptr p_walk = list->first;
-  Element reduced_value = NULL;
+  Element reduced_value = element;
   while (p_walk != NULL)
   {
-    reduced_value = (*reducer)(element, p_walk->element);
+    reduced_value = (*reducer)(reduced_value, p_walk->element);
     p_walk = p_walk->next;
   }
   return reduced_value;

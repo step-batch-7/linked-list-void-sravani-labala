@@ -38,3 +38,10 @@ Status is_even(Element element)
   Status status = (*(int *)element % 2) ? Failure : Success;
   return status;
 }
+
+Element sum(Element value1, Element value2)
+{
+  int *result = malloc(sizeof(int));
+  *result = *(int *)value1 + *(int *)value2;
+  return result;
+}
